@@ -1,9 +1,21 @@
- node{
-         Stage('SCM checkout'){
-                  git 'https://github.com/Raouagarati101/maven-exemple'
+node {
+   def mvnHome
+   stage('Preparation') { // for display purposes
+      // Get some code from a GitHub repository
+      git 'https://github.com/Raouagarati101/java.git'
+      // Get the Maven tool.
+      // ** NOTE: This 'M3' Maven tool must be configured
+      // **       in the global configuration.           
+      mvnHome = tool 'apache-maven-3.6.3'
+   }
+   stage('Build') {
+      // Run the maven build
+      withEnv(["MVN_HOME=$mvnHome"]) {
+         if (isUnix()) {
+            sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
+         } else {
+            bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
          }
-         Stage('compile stage'){    
-         def mvnHome = tool name: 'apache-maven-3.6.3', type: 'maven'
-                  sh "${mvnHome}/bin/mvn package"
-         }
+      }
+   }
 }
