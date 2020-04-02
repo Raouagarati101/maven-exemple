@@ -7,7 +7,7 @@ node {
         // Où fonctionne votre Nexus
         NEXUS_URL  =  "172.17.0.3:8081"
         // Référentiel où nous téléchargerons l'artefact
-        NEXUS_REPOSITORY  =  "exemple-référentiel"
+        NEXUS_REPOSITORY  =  "nexus-test"
         // Identifiant Jenkins pour s'authentifier auprès de Nexus OSS
         //NEXUS_CREDENTIAL_ID  =  "nexus-credentials"
     }
@@ -30,44 +30,44 @@ node {
          }
       }
    }
- stade ( "publier sur nexus" ) {
-            étapes {
+ stage("publish to nexus") {
+            steps {
                 script {
-                    // Lire le fichier xml POM en utilisant l'étape 'readMavenPom', cette étape 'readMavenPom' est incluse dans: https://plugins.jenkins.io/pipeline-utility-steps
-                    pom  =  fichier readMavenPom  :  "pom.xml" ;
-                    // Trouver un artefact construit dans le dossier cible
-                    filesByGlob  =  findFiles ( glob:  "target /*.$ { pom . packaging }" );
-                    // Imprimer des informations sur l'artefact trouvé
-                    echo  "$ { filesByGlob [ 0 ]. nom } $ { filesByGlob [ 0 ]. chemin } $ { filesByGlob [ 0 ]. répertoire } $ { filesByGlob [ 0 ]. longueur } $ { filesByGlob [ 0 ]. lastModified }"
-                    // Extraire le chemin du fichier trouvé
-                    artifactPath  =  filesByGlob [ 0 ]. chemin ;
-                    // Assigner à une réponse booléenne vérifiant si le nom de l'artefact existe
-                    artifactExists  =  fileExists  artifactPath ;
-                    if ( artifactExists ) {
-                        echo  "*** Fichier: $ { artifactPath }, groupe: $ { pom . groupId }, emballage: $ { pom . packaging }, version $ { pom . version }" ;
-                        nexusArtifactUploader (
-                            nexusVersion:  NEXUS_VERSION ,
-                            protocole:  NEXUS_PROTOCOL ,
-                            nexusUrl:  NEXUS_URL ,
-                            groupId:  pom . groupId ,
-                            version:  pom . version ,
-                            référentiel:  NEXUS_REPOSITORY ,
-                            //credentialsId:  NEXUS_CREDENTIAL_ID ,
-                            artefacts: [
-                                // Artefact généré tel que les fichiers .jar, .ear et .war.
-                                [ artifactId:  pom . artifactId ,
-                                classificateur:  '' ,
-                                fichier:  artifactPath ,
-                                type:  pom . emballage ],
-                                // Permet de télécharger le fichier pom.xml pour plus d'informations sur les dépendances transitives
-                                [ artifactId:  pom . artifactId ,
-                                classificateur:  '' ,
-                                fichier:  "pom.xml" ,
-                                type:  "pom" ]
+                    // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
+                    pom = readMavenPom file: "pom.xml";
+                    // Find built artifact under target folder
+                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                    // Print some info from the artifact found
+                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    // Extract the path from the File found
+                    artifactPath = filesByGlob[0].path;
+                    // Assign to a boolean response verifying If the artifact name exists
+                    artifactExists = fileExists artifactPath;
+                    if(artifactExists) {
+                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                        nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            groupId: pom.groupId,
+                            version: pom.version,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                // Artifact generated such as .jar, .ear and .war files.
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: artifactPath,
+                                type: pom.packaging],
+                                // Lets upload the pom.xml file for additional information for Transitive dependencies
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: "pom.xml",
+                                type: "pom"]
                             ]
                         );
                     } else {
-                        erreur  "*** Fichier: $ { artifactPath }, introuvable" ;
+                        error "*** File: ${artifactPath}, could not be found";
                     }
                 }
             }
