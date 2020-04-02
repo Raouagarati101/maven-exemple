@@ -40,7 +40,7 @@ node {
                   protocol: NEXUS_PROTOCOL,
                   nexusUrl: NEXUS_URL,
                   groupID: pom.groupId,
-                  version: '${BUILD_NUMBER},
+                  version: '${BUILD_NUMBER}',
                   repository: NEXUS_REPOSITORY,
                   credentialsId: NEXUS_CREDENTIAL_ID,
                   artifacts: [
