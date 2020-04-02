@@ -1,5 +1,5 @@
 node {
-   environnement {
+   environement {
         // Cela peut être nexus3 ou nexus2
         NEXUS_VERSION  =  "nexus3"
         // Cela peut être http ou https
