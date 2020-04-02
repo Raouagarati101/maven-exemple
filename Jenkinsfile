@@ -1,4 +1,4 @@
-node {
+pipeline {
    environment {
         // Cela peut être nexus3 ou nexus2
         NEXUS_VERSION  =  "nexus3"
@@ -31,6 +31,7 @@ node {
       }
    }
  stage('publish to nexus') {
+    steps {
                 script {
                     // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
                     pom = readMavenPom file: "pom.xml";
@@ -72,3 +73,4 @@ node {
             }
         }
     }
+}
