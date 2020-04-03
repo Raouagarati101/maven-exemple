@@ -82,20 +82,6 @@
             </plugin>
         </plugins>
     </build>
-         <pluginRepositories>
- <distrubtionManagment>
-                  <repository>
-                           <id>releases</id>
-                           <name>nexus-test</name>
-                           <url>http://127.0.0.1:8081/nexus/content/repositories/releases</url>
-                  </repository>
-                  <snapshotRepository>
-                           <id>snapshots</id>
-                           <name>Snapshots</name>
-                           <url>http://127.0.0.1:8081/nexus/content/repositories/snaphots</url>
-                          </snapshotRepository>
-         </distrubtionManagment>
-                  </pluginRepositories>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
