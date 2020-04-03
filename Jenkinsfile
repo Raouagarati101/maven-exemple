@@ -2,9 +2,6 @@ pipeline {
     agent {
         label "master"
     }
-    tools {
-        // Note: this should match with the tool name configured in your jenkins instance (JENKINS_URL/configureTools/)
-        maven "apache-maven-3.6.3"
     }
     environment {
         // This can be nexus3 or nexus2
@@ -19,23 +16,26 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexus-credentials"
     }
     stages {
-        stage("clone code") {
-            steps {
-                script {
-                    // Let's clone the source
-                    git 'https://github.com/maven-exemple.git';
-                }
-            }
-        }
-        stage("mvn build") {
-            steps {
-                script {
-                    // If you are using Windows then you should use "bat" step
-                    // Since unit testing is out of the scope we skip them
-                    sh "mvn package -DskipTests=true"
-                }
-            }
-        }
+           def mvnHome
+   stage('Preparation') { // for display purposes
+      // Get some code from a GitHub repository
+      git 'https://github.com/Raouagarati101/maven_java_web.git'
+      // Get the Maven tool.
+      // ** NOTE: This 'M3' Maven tool must be configured
+      // **       in the global configuration.           
+      mvnHome = tool 'apache-maven-3.6.3'
+   }
+   stage('Build') {
+      // Run the maven build
+      withEnv(["MVN_HOME=$mvnHome"]) {
+         if (isUnix()) {
+            sh '"$MVN_HOME/bin/mvn" -Dmaven.test.failure.ignore clean package'
+         } else {
+            bat(/"%MVN_HOME%\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+         }
+      }
+   }
+
         stage("publish to nexus") {
             steps {
                 script {
