@@ -97,7 +97,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-         <?xml version="1.0" encoding="UTF-8"?>
-<metadata modelVersion="1.1.0">
-         </metadata>
 </project>
