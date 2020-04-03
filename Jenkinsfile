@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     // Let's clone the source
-                    git 'https://github.com/Raouagarati101/maven-exemple.git';
+                    git 'https://github.com/Raouagarati101/maven-exemple.git'
                 }
             }
         }
