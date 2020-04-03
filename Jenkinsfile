@@ -7,6 +7,7 @@ node {
     //  NEXUS_CREDENTAL_ID = "nexus_credentials"
    }
    def mvnHome
+   stages {
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
       git 'https://github.com/Raouagarati101/maven-exemple.git'
@@ -15,7 +16,6 @@ node {
       // **       in the global configuration.           
       mvnHome = tool 'apache-maven-3.6.3'
    }
-   stages {
    stage('Build') {
       // Run the maven build
       withEnv(["MVN_HOME=$mvnHome"]) {
