@@ -96,7 +96,6 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
          <distrubtionManagment>
                   <repository>
                            <id>releases</id>
@@ -109,4 +108,5 @@
                            <url>http://127.0.0.1:8081/nexus/content/repositories/snaphots</url>
                   </snapshotRepository>
          </distrubtionManagment>
+              </dependencies>
 </project>
