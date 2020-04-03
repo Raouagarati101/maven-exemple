@@ -16,6 +16,6 @@ node {
       archive 'target/*.jar'
    }
    stage('Publish') {
-     nexusPublisher nexusInstanceId: 'admin', nexusRepositoryId: 'nexus-test', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'war/target/jenkins.war']], mavenCoordinate: [artifactId: 'jenkins-war', groupId: 'org.jenkins-ci.main', packaging: 'war', version: '2.222.1']]]
+     nexusPublisher nexusInstanceId: 'nexus', nexusRepositoryId: 'nexus-test', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'war/target/jenkins.war']], mavenCoordinate: [artifactId: 'jenkins-war', groupId: 'org.jenkins-ci.main', packaging: 'war', version: '2.23]]]
    }
 }
