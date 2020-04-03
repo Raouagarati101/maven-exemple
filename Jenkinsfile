@@ -1,32 +1,37 @@
 pipeline {
+
     agent {
         label "master"
     }
+
     tools {
-        // Note: this should match with the tool name configured in your jenkins instance (JENKINS_URL/configureTools/)
+        // Note: This should match with the tool name configured in your jenkins instance (JENKINS_URL/configureTools/)
         maven "apache-maven-3.6.3"
     }
+
     environment {
         // This can be nexus3 or nexus2
         NEXUS_VERSION = "nexus3"
         // This can be http or https
         NEXUS_PROTOCOL = "http"
-        // Where your Nexus is running
+        // Where your Nexus is running. 'nexus-3' is defined in the docker-compose file
         NEXUS_URL = "localhost:8081"
         // Repository where we will upload the artifact
         NEXUS_REPOSITORY = "maven-exemple"
         // Jenkins credential id to authenticate to Nexus OSS
         NEXUS_CREDENTIAL_ID = "nexus-credentials"
     }
+
     stages {
         stage("clone code") {
             steps {
                 script {
                     // Let's clone the source
-                    git 'https://github.com/Raouagarati101/maven-exemple.git'
+                    git 'https://github.com/Raouagarati101/maven-exemple.git';
                 }
             }
         }
+
         stage("mvn build") {
             steps {
                 script {
@@ -36,6 +41,7 @@ pipeline {
                 }
             }
         }
+
         stage("publish to nexus") {
             steps {
                 script {
@@ -49,8 +55,10 @@ pipeline {
                     artifactPath = filesByGlob[0].path;
                     // Assign to a boolean response verifying If the artifact name exists
                     artifactExists = fileExists artifactPath;
+                    
                     if(artifactExists) {
                         echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                        
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
@@ -65,6 +73,7 @@ pipeline {
                                 classifier: '',
                                 file: artifactPath,
                                 type: pom.packaging],
+
                                 // Lets upload the pom.xml file for additional information for Transitive dependencies
                                 [artifactId: pom.artifactId,
                                 classifier: '',
@@ -72,12 +81,13 @@ pipeline {
                                 type: "pom"]
                             ]
                         );
+
                     } else {
                         error "*** File: ${artifactPath}, could not be found";
                     }
                 }
             }
         }
+        
     }
 }
-
