@@ -6,7 +6,7 @@ pipeline {
       NEXUS_REPOSITORY = "nexus-test"
     //  NEXUS_CREDENTAL_ID = "nexus_credentials"
    }
-   def mvnHome
+   
    stages {
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
@@ -14,7 +14,7 @@ pipeline {
       // Get the Maven tool.
       // ** NOTE: This 'M3' Maven tool must be configured
       // **       in the global configuration.           
-      mvnHome = tool 'apache-maven-3.6.3'
+     def mvnHome = tool 'apache-maven-3.6.3'
    }
    stage('Build') {
       // Run the maven build
