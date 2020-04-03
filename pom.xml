@@ -11,6 +11,20 @@
 		<jackson.version>1.9.13</jackson.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<pluginRepositories>
+    <pluginRepository>
+        <id>central</id>
+        <url>http://gotoNexus</url>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+        </snapshots>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+    </pluginRepository>
+         </pluginRepositories>
          <dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -59,4 +73,10 @@
 			</plugin>
                            </plugins>
 	</build>
+	<distributionManagement>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <url>http://localhost:8081/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
          </project>
