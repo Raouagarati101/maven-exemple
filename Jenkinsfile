@@ -15,6 +15,7 @@ node {
       // **       in the global configuration.           
       mvnHome = tool 'apache-maven-3.6.3'
    }
+   Stages {
    stage('Build') {
       // Run the maven build
       withEnv(["MVN_HOME=$mvnHome"]) {
@@ -53,6 +54,7 @@ node {
                   );
             } else { error "*** File: ${artifactPath}, could not be found";
                    }
+         }
          }
       }
    }              
