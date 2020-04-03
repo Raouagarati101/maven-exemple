@@ -34,7 +34,6 @@ pipeline {
          }
       }
    }
-
         stage("publish to nexus") {
             steps {
                 script {
@@ -77,6 +76,3 @@ pipeline {
                 }
             }
         }
-    }
-}
-}
