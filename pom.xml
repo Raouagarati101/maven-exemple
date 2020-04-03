@@ -101,7 +101,7 @@
                   <repository>
                            <id>releases</id>
                            <name>nexus-test</name>
-                           <url>http://127.0.0.1:8081/nexus/content/repositories/nexus-test</url>
+                           <url>http://127.0.0.1:8081/repository/nexus-test</url>
                   </repository>
                   <snapshotRepository>
                            <id>snapshots</id>
