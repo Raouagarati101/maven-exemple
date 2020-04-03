@@ -82,6 +82,7 @@
             </plugin>
         </plugins>
     </build>
+         <pluginRepositories>
  <distrubtionManagment>
                   <repository>
                            <id>releases</id>
@@ -94,6 +95,7 @@
                            <url>http://127.0.0.1:8081/nexus/content/repositories/snaphots</url>
                           </snapshotRepository>
          </distrubtionManagment>
+                  </pluginRepositories>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
